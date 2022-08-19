@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
     },
-    passord: {
+    password: {
       type: DataTypes.STRING,
     },
   });
