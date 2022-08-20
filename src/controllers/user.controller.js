@@ -7,11 +7,19 @@ const createUser = async ({ body }, res) => {
     if (newUser.message) return res.status(409).json(newUser);
     return res.status(201).json(newUser);
   } catch (error) {
-    console.log(error)
-    return res.status(500).json({ message: 'unknow error' });
+    return res.status(500).json({ message: `unknow error: ${error}` });
+  }
+};
+
+const login = ({ body }, res) => {
+  try {
+    return res.status(200).json({});
+  } catch (error) {
+    return res.status(500).json({ message: `unknow error: ${error}` });
   }
 };
 
 module.exports = {
   createUser,
+  login,
 };

@@ -9,10 +9,12 @@ const createToken = (payload) => {
       algorithm: 'HS256',
       expiresIn: '12h',
     };
-  
+
     const token = jwt.sign(payload, secretKey, options);
     return token;
   } catch (error) {
     throw error;
   }
 };
+
+module.exports = createToken;
