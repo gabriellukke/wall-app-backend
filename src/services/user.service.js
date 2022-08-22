@@ -1,9 +1,10 @@
 const bcrypt = require('bcryptjs');
 const { userModel } = require('../database/models');
 const createToken = require('../middlewares/auth');
+const sendEmail = require('../middlewares/sendEmail');
 
 const createUser = async (userInfo) => {
-  const { email, password } = userInfo;
+  const { email, password, firstName } = userInfo;
 
   const dbUser = await userModel.findOne({ where: { email } });
   if (dbUser) return { status: 409, message: 'E-mail already registered!' };
@@ -11,6 +12,7 @@ const createUser = async (userInfo) => {
   const SALT_ROUNDS = 10;
   const GENERATED_SALT = bcrypt.genSaltSync(SALT_ROUNDS);
 
+  await sendEmail(email, firstName)
   await userModel.create({
     ...userInfo,
     password: bcrypt.hashSync(password, GENERATED_SALT),
