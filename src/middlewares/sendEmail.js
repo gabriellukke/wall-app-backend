@@ -20,7 +20,7 @@ module.exports = async (email, firstName) => {
       }),
     });
 
-    const xablau = await transporter.sendMail({
+    await transporter.sendMail({
       from: `'The Wall App Team' ${
         process.env.NODEMAILER_EMAIL || 'app@wall.com'
       }`,
@@ -29,7 +29,6 @@ module.exports = async (email, firstName) => {
       text: `Hi ${firstName} 👋
       Welcome to The Wall App! 🎉`,
     });
-    console.log(xablau)
   } catch (error) {
     throw error;
   }
