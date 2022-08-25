@@ -5,6 +5,12 @@ const create = async (postInfo) => {
   return { title, content, authorId };
 }
 
+const getAll = async () => {
+  const posts = await postModel.findAll();
+  return posts;
+}
+
 module.exports = {
   create,
+  getAll,
 }
