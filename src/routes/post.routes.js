@@ -1,9 +1,10 @@
 const { Router } = require('express');
 const { postController } = require('../controllers');
+const { validateToken } = require('../middlewares/auth');
 
 const router = Router();
 
 router
-  .post('/', postController.createPost);
+  .post('/', validateToken, postController.createPost);
 
 module.exports = router;

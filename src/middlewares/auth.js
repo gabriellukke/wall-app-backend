@@ -13,4 +13,18 @@ const createToken = (payload) => {
   return token;
 };
 
-module.exports = createToken;
+const validateToken = (req, res, next) => {
+  try {
+    const token = req.headers.authorization;
+    const user = jwt.verify(token, secretKey);
+    req.user = user;
+    return next();
+  } catch (_error) {
+    return res.status(401).json({ message: 'expired or invalid token' });
+  }
+};
+
+module.exports = {
+  createToken,
+  validateToken,
+};

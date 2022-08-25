@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const { userModel } = require('../database/models');
-const createToken = require('../middlewares/auth');
+const { createToken } = require('../middlewares/auth');
 const sendEmail = require('../middlewares/sendEmail');
 
 const createUser = async (userInfo) => {
