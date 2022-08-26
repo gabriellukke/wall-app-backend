@@ -20,8 +20,6 @@ module.exports = async (email, firstName) => {
     }),
   });
 
-  console.log(transporter);
-
   await transporter.sendMail({
     from: `'The Wall App Team' ${
       process.env.NODEMAILER_EMAIL || 'app@wall.com'
