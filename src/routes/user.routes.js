@@ -12,6 +12,6 @@ router
     res.send(users);
   })
   .post('/register', joiValidation(schemas.register), userController.createUser)
-  .post('/login', userController.login);
+  .post('/login', joiValidation(schemas.login), userController.login);
 
 module.exports = router;

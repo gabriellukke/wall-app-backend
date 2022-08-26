@@ -14,7 +14,10 @@ const schemas = {
   createPost: Joi.object().keys({
     title: Joi.string().required(),
     content: Joi.string().required(),
-    authorId: Joi.string().required(),
+    authorId: [
+      Joi.string().required(),
+      Joi.number().required(),
+    ]
   }),
 };
 
