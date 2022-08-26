@@ -4,7 +4,7 @@ const createUser = async ({ body }, res) => {
   try {
     const { status, message } = await userService.createUser(body);
 
-    return res.status(status).json(message);
+    return res.status(status).json({ message });
   } catch (error) {
     return res.status(500).json({ message: `unknow error: ${error}` });
   }
