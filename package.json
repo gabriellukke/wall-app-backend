@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon --watch \"./src/**\" --ext \"js\" --ignore \"src/**/*.spec.js,src/**/*.json\" --exec \"nodemon src/server.js\"",
-    "test": "mocha ./tests/**/*$NAME*.test.js --exit",
+    "test:unit": "mocha ./__tests__/unit/**/*$NAME*.test.js --exit",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "keywords": [],
