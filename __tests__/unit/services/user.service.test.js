@@ -22,6 +22,19 @@ describe('User Service', () => {
       userModel.findOne.restore();
       userModel.create.restore();
     });
+
+    it('should return an error if user already exists', async () => {
+      sinon.stub(userModel, 'findOne').resolves({
+        ...userInfo,
+        id: 1,
+      });
+      
+      const response = await userService.createUser(userInfo);
+  
+      expect(response).to.have.property('status', 409);
+      expect(response).to.have.property('message', 'E-mail already registered!');
+      userModel.findOne.restore();
+    });
   
     it('should create a user', async () => {
       sinon.stub(userModel, 'findOne').resolves(null);
@@ -35,23 +48,10 @@ describe('User Service', () => {
   
       expect(response).to.have.property('status', 200);
       expect(response).to.have.property('message', 'User registered successfully');
-      userModel.findOne.restore();
-    });
-  
-    it('should return an error if user already exists', async () => {
-      sinon.stub(userModel, 'findOne').resolves({
-        ...userInfo,
-        id: 1,
-      });
-      
-      const response = await userService.createUser(userInfo);
-  
-      expect(response).to.have.property('status', 409);
-      expect(response).to.have.property('message', 'E-mail already registered!');
     });
   });
 
-  describe.only('Login user', () => {
+  describe('Login user', () => {
     const userInfo = {
       firstName: 'Gabriel',
       lastName: 'Almeida',
