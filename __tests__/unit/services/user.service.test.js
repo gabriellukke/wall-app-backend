@@ -1,6 +1,7 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
 
 const { userModel } = require('../../../src/database/models');
 const { userService } = require('../../../src/services');
@@ -14,10 +15,7 @@ describe('User Service', () => {
       email: 'gabriel@test.com',
       password: '12345678',
     };
-    const mockObj = {
-      sendEmail,
-    }
-  
+
     after(() => {
       userModel.findOne.restore();
       userModel.create.restore();
@@ -28,26 +26,38 @@ describe('User Service', () => {
         ...userInfo,
         id: 1,
       });
-      
+
       const response = await userService.createUser(userInfo);
-  
+
       expect(response).to.have.property('status', 409);
-      expect(response).to.have.property('message', 'E-mail already registered!');
+      expect(response).to.have.property(
+        'message',
+        'E-mail already registered!'
+      );
       userModel.findOne.restore();
     });
-  
+
     it('should create a user', async () => {
       sinon.stub(userModel, 'findOne').resolves(null);
       sinon.stub(userModel, 'create').resolves({
         ...userInfo,
         id: 1,
       });
-      sinon.stub(mockObj, 'sendEmail').callsFake(() => {});
-      
+      sinon.stub(nodemailer, 'createTestAccount').resolves({
+        user: 'test@test.com',
+        pass: 'test',
+      });
+      sinon.stub(nodemailer, 'createTransport').returns({
+        sendMail: sinon.stub().resolves({}),
+      });
+
       const response = await userService.createUser(userInfo);
-  
+
       expect(response).to.have.property('status', 200);
-      expect(response).to.have.property('message', 'User registered successfully');
+      expect(response).to.have.property(
+        'message',
+        'User registered successfully'
+      );
     });
   });
 
@@ -68,10 +78,13 @@ describe('User Service', () => {
 
     it('should return an error if user does not exist', async () => {
       sinon.stub(userModel, 'findOne').resolves(null);
-      
+
       const response = await userService.login(userInfo);
 
-      expect(response).to.have.property('message', 'Unauthorized, incorrect or unregistered email');
+      expect(response).to.have.property(
+        'message',
+        'Unauthorized, incorrect or unregistered email'
+      );
       userModel.findOne.restore();
     });
 
@@ -81,10 +94,13 @@ describe('User Service', () => {
         id: 1,
       });
       sinon.stub(bcrypt, 'compare').resolves(false);
-      
+
       const response = await userService.login(userInfo);
 
-      expect(response).to.have.property('message', 'Unauthorized, incorrect password');
+      expect(response).to.have.property(
+        'message',
+        'Unauthorized, incorrect password'
+      );
       bcrypt.compare.restore();
       userModel.findOne.restore();
     });
@@ -97,7 +113,7 @@ describe('User Service', () => {
       sinon.stub(bcrypt, 'compare').resolves(true);
       sinon.stub(bcrypt, 'genSalt').resolves('salt');
       sinon.stub(bcrypt, 'hash').resolves('hashedPassword');
-      
+
       const response = await userService.login(userInfo);
 
       expect(response).to.have.property('token');
