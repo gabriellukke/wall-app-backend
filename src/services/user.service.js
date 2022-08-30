@@ -11,11 +11,12 @@ const createUser = async (userInfo) => {
 
   const SALT_ROUNDS = 10;
   const GENERATED_SALT = bcrypt.genSaltSync(SALT_ROUNDS);
+  const HASHED_PASSWORD = bcrypt.hashSync(password, GENERATED_SALT);
 
-  await sendEmail(email, firstName)
+  await sendEmail(email, firstName);
   await userModel.create({
     ...userInfo,
-    password: bcrypt.hashSync(password, GENERATED_SALT),
+    password: HASHED_PASSWORD,
   });
 
   return { status: 200, message: 'User registered successfully' };
