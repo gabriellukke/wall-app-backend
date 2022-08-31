@@ -1,7 +1,10 @@
 {
   "name": "wall-app-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Wall app REST API",
+  "engines": {
+    "node": "16.x"
+  },
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js",
