@@ -1,2 +1,5 @@
 node_modules
 .env
+.env.production
+.env.development
+.nyc_output
