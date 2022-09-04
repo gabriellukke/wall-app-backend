@@ -2,23 +2,28 @@ require('dotenv/config');
 const nodemailer = require('nodemailer');
 
 module.exports = async (email, firstName) => {
-  const testAccount = await nodemailer.createTestAccount();
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.NODEMAILER_EMAIL,
-      pass: process.env.NODEMAILER_PASSWORD,
-    },
-    ...(process.env.NODE_ENV === 'development' || 'test' && {
-      service: null,
+  let transporter = {};
+  const nodemailerCredentialsVerification = process.env.NODEMAILER_EMAIL && process.env.NODEMAILER_PASSWORD;
+
+  if (nodemailerCredentialsVerification) {
+    transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.NODEMAILER_EMAIL,
+        pass: process.env.NODEMAILER_PASSWORD,
+      },
+    });
+  } else {
+    const testAccount = await nodemailer.createTestAccount();
+    transporter = nodemailer.createTransport({
       host: 'smtp.ethereal.email',
       port: 587,
       auth: {
         user: testAccount.user,
         pass: testAccount.pass,
       },
-    }),
-  });
+    });
+  }
 
   await transporter.sendMail({
     from: `'The Wall App Team' ${
