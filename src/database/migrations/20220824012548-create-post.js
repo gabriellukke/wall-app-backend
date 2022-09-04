@@ -3,10 +3,10 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Posts', {
       id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
       },
       title: {
         type: Sequelize.STRING,
@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       authorId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         references: {

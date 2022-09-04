@@ -1,10 +1,12 @@
 'use strict';
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => queryInterface.bulkInsert('Users',
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.bulkInsert('Users',
     [
       {
-        id: 1,
+        id: uuidv4(),
         firstName: 'Gabriel',
         lastName: 'Almeida',
         email: 'gabs@test.com',
@@ -13,7 +15,7 @@ module.exports = {
         updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       {
-        id: 2,
+        id: uuidv4(),
         firstName: 'Kéren',
         lastName: 'Hapuch',
         email: 'keren@test.com',
@@ -21,9 +23,36 @@ module.exports = {
         createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
         updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
-    ], {}),
+    ], {});
+
+    const users = await queryInterface.sequelize.query(
+      `SELECT id FROM Users;`,
+    );
+
+    const usersRows = users[0];
+
+    return await queryInterface.bulkInsert('Posts', [
+      { 
+        id: uuidv4(),
+        title: 'My first post',
+        content: 'This is my first post',
+        authorId: usersRows[0].id,
+        createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+        updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
+      {
+        id: uuidv4(),
+        title: 'My second post',
+        content: 'This is my second post',
+        authorId: usersRows[1].id,
+        createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+        updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
+    ], {});
+  },
 
   async down (queryInterface) {
     await queryInterface.bulkDelete('Users', null, {});
+    await queryInterface.bulkDelete('Posts', null, {});
   }
 };
