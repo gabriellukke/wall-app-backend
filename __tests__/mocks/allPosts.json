@@ -1,0 +1,36 @@
+[
+	{
+		"id": "90ab98cd-d1b0-4858-87ca-98aa0f9a98c5",
+		"title": "My second post",
+		"content": "This is my second post",
+		"authorId": "cda795c3-6ab9-4898-b821-2dff0893741a",
+		"createdAt": "2022-09-06T10:52:50.000Z",
+		"updatedAt": "2022-09-06T10:52:50.000Z",
+		"user": {
+			"id": "cda795c3-6ab9-4898-b821-2dff0893741a",
+			"firstName": "Gabriel",
+			"lastName": "Almeida",
+			"email": "gabs@test.com",
+			"password": "$2a$10$hSzzai6uJfS158kkixol4Ou3jnLFfnftPFQNynTm9IlGI5FZ1bASW",
+			"createdAt": "2022-09-06T10:52:50.000Z",
+			"updatedAt": "2022-09-06T10:52:50.000Z"
+		}
+	},
+	{
+		"id": "f77a0ba7-34ae-4bbd-918c-6c0830392d7d",
+		"title": "My first post",
+		"content": "This is my first post",
+		"authorId": "0ac95334-3907-4774-a9a5-2d6224db0fe8",
+		"createdAt": "2022-09-06T10:52:50.000Z",
+		"updatedAt": "2022-09-06T10:52:50.000Z",
+		"user": {
+			"id": "0ac95334-3907-4774-a9a5-2d6224db0fe8",
+			"firstName": "Kéren",
+			"lastName": "Hapuch",
+			"email": "keren@test.com",
+			"password": "$2a$10$g5X/TtYzwl/lRBJYFCs8SOSmaEGTnFzoRMnzbhemo2D025Iq7T2vu",
+			"createdAt": "2022-09-06T10:52:50.000Z",
+			"updatedAt": "2022-09-06T10:52:50.000Z"
+		}
+	}
+]
