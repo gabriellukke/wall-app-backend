@@ -7,7 +7,6 @@
   },
   "main": "index.js",
   "scripts": {
-    "prestart": "sequelize-cli db:drop && npm run db:create && npm run db:migrate && npm run db:seeds",
     "start": "node src/server.js",
     "dev": "nodemon --watch \"./src/**\" --ext \"js\" --ignore \"src/**/*.spec.js,src/**/*.json\" --exec \"nodemon src/server.js\"",
     "test": "mocha ./__tests__/integration/**/*$NAME*.test.js --exit",
